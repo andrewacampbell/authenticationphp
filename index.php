@@ -6,7 +6,7 @@
     <title>Home</title>
   </head>
   <body>
-    <h2>User auth system</h2>
+    <!-- <h2>User auth system</h2> -->
 
     <p> You are currently not signin <a href="login.php">Login</a> Not yet a member? <a href="signup.php">Signup</a> </p>
 

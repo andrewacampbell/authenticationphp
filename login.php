@@ -3,26 +3,34 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Login Page</title>
+
+    <!--<script src="js/jquery-3.1.1.min.js"></script>-->
+    <!--<script src="js/bootstrap.min.js"></script>-->
+    <!--<script src="css/bootstrap.css"></script>-->
+
   </head>
+
   <body>
     <h2>User auth system</h2>
 
-    <h3> Login form</h3>
+    <h3> Login Area </h3>
 
-    <form class="form-inline">
-              <label class="sr-only" for="inlineFormInput">Name</label>
-              <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Jane Doe">
+    <form>
 
-              <label class="sr-only" for="inlineFormInputGroup">Username</label>
-              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon"></div>
-                <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username">
-              </div>
+        <div class="form-group">
+            <label for="Username">Email</label>
+            <input type="text" class="form-control" id="Username" placeholder="Username">
+        </div>
 
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+        </div>
 
-              <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+        <button type="submit" class="btn btn-primary">Login</button>
+
+    </form>
 
     <p><a href="index.php"> Back </a> </p>
 
