@@ -1,5 +1,39 @@
 <?php include_once 'resources/database.php';
 
+if(isset($_POST['signupBtn'])){
+
+//array to store form errors
+  $form_errors = array();
+
+  $required_fields = array('username','email','password','password2');
+
+//loop through each required field.
+  foreach($required_fields as $field_name){
+    if(!isset($_POST[$field_name) || $field_name == NULL]){
+        $form_errors[] = $field_name
+    }
+  }
+
+   if(empty($form_errors)){
+
+     $username        = $_POST['username'];
+     $email           = $_POST['email'];
+     $password        = $_POST['password'];
+     $password2       = $_POST['password2'];
+
+
+     if($password == $password2){
+
+     }
+
+   }
+
+
+
+}
+
+
+
 //getting values users enter into form
 if(isset($_POST['username'])){
 
@@ -8,30 +42,35 @@ if(isset($_POST['username'])){
     $password        = $_POST['password'];
     $password2       = $_POST['password2'];
 
-    $encryp_password = 
+    if($password == $password2){
 
-    //building query to insert
-    $insertqry  = "INSERT INTO users (username, password, email, join_date)
-                  VALUES (:username, :password, :email, now())";
 
-    //prepare query - sanitize
-    $statement = $db->prepare($insertqry);
+        $encryp_password = password_hash($password, PASSWORD_DEFAULT);
 
-    //execute sql stmt
-    try{
-    $statement->execute(array(':username' => $username,
-                              ':email'    => $email,
-                              ':password' => $password
-                              ));
+        //building query to insert
+        $insertqry  = "INSERT INTO users (username, password, email, join_date)
+                      VALUES (:username, :password, :email, now())";
 
-      if($statement->rowCount() == 1){
-          $result = "<p> Registered succeffully!</p>";
-      }
+        //prepare query - sanitize
+        $statement = $db->prepare($insertqry);
 
-    }catch(PDOException $ex){
-        $result = "<p> Registered succeffully!</p>".$ex->getMessage();
+        //execute sql stmt
+        try{
+        $statement->execute(array(':username' => $username,
+                                  ':email'    => $email,
+                                  ':password' => $encryp_password
+                                  ));
+
+          if($statement->rowCount() == 1){
+              $result = "<p> Registered succeffully!</p>";
+          }
+
+        }catch(PDOException $ex){
+            $result = "<p> Registered succeffully!</p>".$ex->getMessage();
+        }
+    }else{
+      echo "  password dosen't match ";
     }
-
 }
 
 ?>
@@ -79,7 +118,7 @@ if(isset($_POST['username'])){
             <input type="password" class="form-control" id="inputPassword2" placeholder="Password2" name="password2">
         </div>
 
-        <button type="submit" class="btn btn-primary">SignUp</button>
+        <button type="submit" class="btn btn-primary" name="signupBtn">SignUp</button>
     </form>
 
     <p><a href="index.php"> Back </a> </p>
