@@ -1,100 +1,89 @@
 <?php include_once 'resources/database.php';
+      include_once 'resources/functions.php';
+
 
 if(isset($_POST['signupBtn'])){
 
 //array to store form errors
   $form_errors = array();
 
-  $required_fields = array('username','email','password','password2');
+  $required_fields = array('username','email','password');
 
-//loop through each required field.
-  foreach($required_fields as $field_name){
-    if(!isset($_POST[$field_name) || $field_name == NULL]){
-        $form_errors[] = $field_name
-    }
-  }
+//check values passed in by users to see if they are empty
+$form_errors = array_merge(check_empty_fields($required_fields));
+
+$minimum_length_fields = array('username' => 4, 'password' => 8);
+
+$form_errors = array_merge($form_errors, check_min_length($minimum_length_fields));
+
+$form_errors = array_merge($form_errors, check_email($_POST));
+
+
 
    if(empty($form_errors)){
 
-     $username        = $_POST['username'];
-     $email           = $_POST['email'];
-     $password        = $_POST['password'];
-     $password2       = $_POST['password2'];
+     $username               = $_POST['username'];
+     $email                  = $_POST['email'];
+     $password               = $_POST['password'];
 
+          $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
 
-     if($password == $password2){
+          $insertqry = "INSERT INTO users (username, password, email, join_date)
+                        VALUES(:username, :password, :email, now())";
 
-     }
+          $statement = $db->prepare($insertqry);
 
-   }
-
-
-
-}
-
-
-
-//getting values users enter into form
-if(isset($_POST['username'])){
-
-    $username        = $_POST['username'];
-    $email           = $_POST['email'];
-    $password        = $_POST['password'];
-    $password2       = $_POST['password2'];
-
-    if($password == $password2){
-
-
-        $encryp_password = password_hash($password, PASSWORD_DEFAULT);
-
-        //building query to insert
-        $insertqry  = "INSERT INTO users (username, password, email, join_date)
-                      VALUES (:username, :password, :email, now())";
-
-        //prepare query - sanitize
-        $statement = $db->prepare($insertqry);
-
-        //execute sql stmt
         try{
-        $statement->execute(array(':username' => $username,
-                                  ':email'    => $email,
-                                  ':password' => $encryp_password
-                                  ));
 
-          if($statement->rowCount() == 1){
-              $result = "<p> Registered succeffully!</p>";
-          }
+            $statement->execute(array(':username'     => $username,
+                                      ':email'        => $email,
+                                      ':password'     => $encrypt_password));
 
-        }catch(PDOException $ex){
-            $result = "<p> Registered succeffully!</p>".$ex->getMessage();
+        if($statement->rowCount() == 1){
+            $result = "<p>Registered succeffully</p>";
         }
-    }else{
-      echo "  password dosen't match ";
-    }
+
+      }catch(PDOException $ex){
+          $result = "<p> An error as occur</p>".$ex->getMessage();
+      }
+
+  }else{
+
+        if(count($form_errors) == 1){
+
+            $result = "<p style ='color:red';> There are one error in the form <br>";
+
+
+              $result.= "</ul></p>";
+      }else{
+              $result = "<p style='color:red;'> There were " .count($form_errors) . " there are errors in the form</br>";
+
+      }
+  }
+
 }
 
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Register Page</title>
-    <!--<script src="js/jquery-3.1.1.min.js"></script>-->
-    <!--<script src="js/bootstrap.min.js"></script>-->
-    <!--<script src="css/bootstrap.css"></script>-->
+    <title>Login Page</title>
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="css/bootstrap.css"></script>
+
   </head>
 
   <body>
+
     <h2>User auth system</h2>
 
-    <h3> Register Area </h3>
+    <?php if(isset($result))echo $result; ?>
+    <?php if(!empty($form_errors)) echo display_errors($form_errors); ?>
 
-    <?php if(isset($result)){
-
-        echo $result;
-
-    } ?>
+    <h3> Login Area </h3>
 
     <form method="post" action="">
 
@@ -111,11 +100,6 @@ if(isset($_POST['username'])){
         <div class="form-group">
             <label for="inputPassword">Password</label>
             <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
-        </div>
-
-        <div class="form-group">
-            <label for="inputPassword">Verify Password</label>
-            <input type="password" class="form-control" id="inputPassword2" placeholder="Password2" name="password2">
         </div>
 
         <button type="submit" class="btn btn-primary" name="signupBtn">SignUp</button>
