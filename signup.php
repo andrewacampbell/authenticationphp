@@ -19,12 +19,11 @@ $form_errors = array_merge($form_errors, check_min_length($minimum_length_fields
 $form_errors = array_merge($form_errors, check_email($_POST));
 
 
-
    if(empty($form_errors)){
 
-     $username               = $_POST['username'];
-     $email                  = $_POST['email'];
-     $password               = $_POST['password'];
+       $username               = $_POST['username'];
+       $email                  = $_POST['email'];
+       $password               = $_POST['password'];
 
           $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
 

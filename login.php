@@ -1,4 +1,35 @@
-<?php include_once 'resources/database.php';?>
+<?php
+    include_once 'resources/database.php';
+    include_once 'resources/session.php';
+    include_once 'resources/functions.php';
+
+
+    if(isset($_POST['loginBtn'])){
+
+        $form_errors = array();
+
+        $required_fields = array('username', 'password');
+
+        $form_errors = array_merge($form_errors, check_empty_fields($required_fields));
+
+        if(empty($form_errors)){
+          $user = $_POST['username'];
+          $query = "SELECT username, password
+                    WHERE username="
+        }else{
+
+          if(count($form_errors) == 1){
+
+              $result = "<p style='color:red;'>There was one error in the form</p>";
+
+          }else{
+              $result = "<p style='color:red;'> There are " .count($form_errors)." errors in the form </p>";
+          }
+        }
+    }
+
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -15,20 +46,22 @@
     <h2>User auth system</h2>
 
     <h3> Login Area </h3>
+    <?php if(isset($result)) echo $result; ?>
+    <?php if(!empty($form_errors)) echo display_errors($form_errors); ?>
 
-    <form>
+    <form method="post" action="">
 
         <div class="form-group">
-            <label for="Username">Email</label>
-            <input type="text" class="form-control" id="Username" placeholder="Username">
+            <label for="Username">Username</label>
+            <input type="text" class="form-control" id="Username" placeholder="Username" name="username">
         </div>
 
         <div class="form-group">
             <label for="inputPassword">Password</label>
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
         </div>
 
-        <button type="submit" class="btn btn-primary">Login</button>
+        <input type="submit" class="btn btn-primary" name="loginBtn"></input>
 
     </form>
 

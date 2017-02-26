@@ -7,7 +7,7 @@ function check_empty_fields($required_fields_array){
   foreach($required_fields_array as $name_of_fields){
     if(!isset($_POST[$name_of_fields]) || $_POST[$name_of_fields] == null){
 
-        $form_errors[] = $name_of_fields . "is a required field";
+        $form_errors[] = $name_of_fields . " is a required field";
     }
   }
   return $form_errors;
@@ -21,7 +21,7 @@ function check_min_length($fields_to_check_lenght){
   foreach ($fields_to_check_lenght as $name_of_field => $minimum_length_required){
 
       if(strlen(trim($_POST[$name_of_field])) < $minimum_length_required){
-          $form_errors[] = $name_of_field . "is too short, must atleast be {$minimum_length_required} char long";
+          $form_errors[] = $name_of_field . " is too short, must atleast be {$minimum_length_required} char long";
 
       }
 
@@ -45,7 +45,7 @@ function check_email($data){
 
           if(filter_var($_POST[$key], FILTER_VALIDATE_EMAIL) === false){
 
-              $form_errors[] = $key . "is not a valid email address";
+              $form_errors[] = $key . " is not a valid email address";
           }
       }
   }
