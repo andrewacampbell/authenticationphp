@@ -15,10 +15,11 @@
         //check form to make sure there are no errors
         if(empty($form_errors)){
 
+          //get values user enter
           $user      = $_POST['username'];
           $password  = $_POST['password'];
 
-
+          //check databasse to see if user exists
           $query     = "SELECT *
                         FROM users
                         WHERE username=:username";
@@ -27,11 +28,19 @@
           $statement->execute(array(':username'=> $user));
 
           while($row = $statement->fetch()){
-              $id = $row['id'];
+              $id               = $row['id'];
 
-              $hashed_password = $row['password'];
+              $hashed_password  = $row['password'];
+
+              $username         = $row['username'];
           }
-
+              if(password_verify($password, $hashed_password)){
+                  $_SESSION['id'] = $id;
+                  $_SESSION['username'] = $username;
+                  header("location: index.php");
+              }else{
+                $result = "<p style='padding: 20px; color: red; border:1px solid grey;'> Invalid username or password</p>";
+              }
 
         }else{
 

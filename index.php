@@ -1,4 +1,4 @@
-<?php include_once 'resources/database.php'?>
+<?php include_once 'resources/session.php'?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,9 +8,10 @@
   <body>
     <!-- <h2>User auth system</h2> -->
 
+  <?php if(!isset($_SESSION['username'])): ?>
     <p> You are currently not signin <a href="login.php">Login</a> Not yet a member? <a href="signup.php">Signup</a> </p>
-
-    <p> You are logged in as {username here}<a href="logout.php"> Logout </a> </p>
-
+  <?php else: ?>
+    <p> You are logged in as <?php echo $_SESSION['username']; ?><a href="logout.php"> Logout </a> </p>
+  <?php endif ?>
   </body>
 </html>
