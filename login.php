@@ -12,10 +12,27 @@
 
         $form_errors = array_merge($form_errors, check_empty_fields($required_fields));
 
+        //check form to make sure there are no errors
         if(empty($form_errors)){
-          $user = $_POST['username'];
-          $query = "SELECT username, password
-                    WHERE username="
+
+          $user      = $_POST['username'];
+          $password  = $_POST['password'];
+
+
+          $query     = "SELECT *
+                        FROM users
+                        WHERE username=:username";
+
+          $statement = $db->prepare($query);
+          $statement->execute(array(':username'=> $user));
+
+          while($row = $statement->fetch()){
+              $id = $row['id'];
+
+              $hashed_password = $row['password'];
+          }
+
+
         }else{
 
           if(count($form_errors) == 1){

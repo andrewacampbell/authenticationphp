@@ -1,5 +1,6 @@
 <?php
 
+//Check to make sure users at least enter something inside the fields.
 function check_empty_fields($required_fields_array){
 
   $form_errors = array();
@@ -13,7 +14,7 @@ function check_empty_fields($required_fields_array){
   return $form_errors;
 }
 
-
+//Check values user enter to make sure, they at least reach minimum length
 function check_min_length($fields_to_check_lenght){
 
   $form_errors = array();
@@ -31,6 +32,7 @@ function check_min_length($fields_to_check_lenght){
 }
 
 
+//This function will validate an email the user enters
 function check_email($data){
 
   $form_errors = array();
@@ -54,7 +56,7 @@ function check_email($data){
 }
 
 
-
+//This function is used to display form errors
 function display_errors($form_errors_array){
 
     $errors = "<p><ul style='color: red'>";
@@ -66,4 +68,13 @@ function display_errors($form_errors_array){
     $errors .= "</ul></p>";
     return $errors;
 
+}
+
+//Check users input and clean it from special chars, whitespace etc.
+function check_input($data){
+    $data = trim($data);
+    $data = stripcslashes($data);
+    $data = htmlspecialchars($data);
+
+    return $data;
 }
