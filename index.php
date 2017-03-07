@@ -1,11 +1,5 @@
-<?php include_once 'resources/session.php'?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Home</title>
-  </head>
-  <body>
+<?php include_once 'resources/session.php';?>
+<?php include_once 'includes/header.php'; ?>
     <!-- <h2>User auth system</h2> -->
 
   <?php if(!isset($_SESSION['username'])): ?>
@@ -13,5 +7,4 @@
   <?php else: ?>
     <p> You are logged in as <?php echo $_SESSION['username']; ?><a href="logout.php"> Logout </a> </p>
   <?php endif ?>
-  </body>
-</html>
+<?php include_once 'includes/footer.php'; ?>

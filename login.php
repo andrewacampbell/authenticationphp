@@ -56,19 +56,7 @@
 
 ?>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Login Page</title>
-
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="css/bootstrap.css"></script>
-
-  </head>
-
-  <body>
+<?php include_once 'includes/header.php'; ?>
     <h2>User auth system</h2>
 
     <h3> Login Area </h3>
@@ -92,6 +80,4 @@
     </form>
 
     <p><a href="index.php"> Back </a> </p>
-
-  </body>
-</html>
+<?php include_once 'includes/footer.php'; ?>
